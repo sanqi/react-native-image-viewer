@@ -18,6 +18,7 @@ import {
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
 import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
+import CachedImage from 'react-native-image-cache-wrapper';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -182,7 +183,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     // 如果已知源图片宽高，直接设置为 success
     if (image.width && image.height) {
       if (this.props.enablePreload && imageLoaded === false) {
-        Image.prefetch(image.url);
+        CachedImage.prefetch(image.url);
       }
       imageStatus.width = image.width;
       imageStatus.height = image.height;
@@ -191,7 +192,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       return;
     }
 
-    Image.getSize(
+    CachedImage.getSize(
       image.url,
       (width: number, height: number) => {
         imageStatus.width = width;
