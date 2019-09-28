@@ -177,13 +177,19 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     // Tagged success if url is started with file:, or not set yet(for custom source.uri).
     if (!image.url || image.url.startsWith(`file:`)) {
+
       imageLoaded = true;
     }
 
     // 如果已知源图片宽高，直接设置为 success
     if (image.width && image.height) {
       if (this.props.enablePreload && imageLoaded === false) {
-        CachedImage.prefetch(image.url);
+        // @ts-ignore: Unreachable code error
+        CachedImage.prefetch(image.url,(cacheFile: string)=>{
+          console.log("cache filename:"+cacheFile);
+        },(error: string)=>{
+          console.log("error:"+error);
+        });
       }
       imageStatus.width = image.width;
       imageStatus.height = image.height;
@@ -191,7 +197,8 @@ export default class ImageViewer extends React.Component<Props, State> {
       saveImageSize();
       return;
     }
-
+    
+    // @ts-ignore: Unreachable code error
     CachedImage.getSize(
       image.url,
       (width: number, height: number) => {
