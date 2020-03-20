@@ -223,6 +223,9 @@ export class Props {
   };
 
   public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
+  
+  public cacheDir?: string = '';
+
 }
 
 export class State {
