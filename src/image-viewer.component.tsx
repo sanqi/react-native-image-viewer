@@ -18,7 +18,6 @@ import {
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
 import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
-import CachedImage from 'react-native-image-cache-wrapper';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -195,10 +194,7 @@ export default class ImageViewer extends React.Component<Props, State> {
       saveImageSize();
       return;
     }
-    if (this.props.cacheDir != "") {
-      // @ts-ignore: Unreachable code error
-      CachedImage.cacheDir = this.props.cacheDir;
-    }
+
     // @ts-ignore: Unreachable code error
     Image.getSize(
       image.url,
