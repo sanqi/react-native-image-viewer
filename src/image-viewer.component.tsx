@@ -200,9 +200,8 @@ export default class ImageViewer extends React.Component<Props, State> {
       CachedImage.cacheDir = this.props.cacheDir;
     }
     // @ts-ignore: Unreachable code error
-    Image.prefetchWithHeaders(
+    Image.getSize(
       image.url,
-      image!.props!.source!.headers,
       (width: number, height: number) => {
         imageStatus.width = width;
         imageStatus.height = height;

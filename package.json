@@ -18,7 +18,6 @@
   "author": "ascoders",
   "license": "MIT",
   "dependencies": {
-    "react-native-image-cache-wrapper": "https://github.com/acv-thomas/react-native-image-cache-wrapper",
     "react-native-image-pan-zoom": "^2.1.12"
   },
   "peerDependencies": {
