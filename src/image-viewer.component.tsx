@@ -18,6 +18,7 @@ import {
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
 import { IImageInfo, IImageSize, Props, State } from './image-viewer.type';
+import CachedImage from 'react-native-image-cache-wrapper';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -179,6 +180,7 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     // Tagged success if url is started with file:, or not set yet(for custom source.uri).
     if (!image.url || image.url.startsWith(`file:`)) {
+
       imageLoaded = true;
     }
 
@@ -193,9 +195,14 @@ export default class ImageViewer extends React.Component<Props, State> {
       saveImageSize();
       return;
     }
-
-    Image.getSize(
+    if (this.props.cacheDir != "") {
+      // @ts-ignore: Unreachable code error
+      CachedImage.cacheDir = this.props.cacheDir;
+    }
+    // @ts-ignore: Unreachable code error
+    Image.prefetchWithHeaders(
       image.url,
+      image!.props!.source!.headers,
       (width: number, height: number) => {
         imageStatus.width = width;
         imageStatus.height = height;
@@ -222,8 +229,14 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 预加载图片
    */
   public preloadImage = (index: number) => {
+    let breakAfter = this.props.preloadLimit;
     if (index < this.state.imageSizes!.length) {
-      this.loadImage(index + 1);
+      for (let i = index; i < this.state.imageSizes!.length; i++, breakAfter--) {
+        if (breakAfter <= 0) {
+          break;
+        }
+        this.loadImage(i + 1);
+      }
     }
   };
   /**

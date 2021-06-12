@@ -104,6 +104,8 @@ export class Props {
    */
   public useNativeDriver?: boolean = false;
 
+  public preloadLimit: number = 1;
+
   /**
    * 长按图片的回调
    */
@@ -229,6 +231,9 @@ export class Props {
   };
 
   public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
+  
+  public cacheDir?: string = '';
+
 }
 
 export class State {
